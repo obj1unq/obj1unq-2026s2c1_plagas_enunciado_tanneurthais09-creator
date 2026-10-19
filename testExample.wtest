@@ -1,9 +1,51 @@
-import example.pepita
+import elementos.*
+import plagas.* 
 
-describe "group of tests for pepita" {
-
-  test "pepita has initial energy" {
-    assert.equals(100, pepita.energy())
+describe "Test de Hogar" {
+  test "El Hogar es bueno" {
+    const hogar = new Hogar()
+    assert.that(hogar.esBueno())
   }
+  test "El hogar no es bueno"{
+    const hogar = new Hogar(mugre=100)
+    assert.notThat(hogar.esBueno())
+  }
+}
+describe "Tets de Huerta" {
+  test "La Huerta es buena" {
+    const huerta = new Huerta(produccion=50)
+    assert.that(huerta.esBueno())
+    
+  }
+  test "La Huerta no es buena"{
+    const huerta = new Huerta(nivelDeProduccion = 10)
+    assert.notThat(huerta.esBueno())
+  }
+}
 
+describe "Test de Mascota" {
+  test "La mascota es buena" {
+    const mascota = new Mascotas( nivelSalud=300 )
+    assert.that(mascota.esBueno())  
+  }
+  test "La mascota no es buena" {
+    const mascota = new Mascotas()
+    assert.notThat(mascota.esBueno())  
+  }
+}
+describe "Test de Barrio" {
+  test "El barrio es copado" {
+    const hogar = new Hogar()
+    const huerta = new Huerta(produccion=50)
+    const mascota = new Mascotas()
+    const barrio = new Barrio(listaDeElementos = [hogar,huerta,mascota])
+    assert.that(barrio.esBueno())
+  }
+  test "El Barrio no es copado"{
+    const hogar = new Hogar(mugre=100)
+    const huerta = new Huerta(produccion=50)
+    const mascota = new Mascotas()
+    const barrio = new Barrio(listaDeElementos = [hogar,huerta,mascota])
+    assert.notThat(barrio.esBueno())
+  }
 }
