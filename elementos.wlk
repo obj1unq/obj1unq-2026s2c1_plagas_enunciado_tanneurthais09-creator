@@ -6,13 +6,14 @@ class Elementos{
 
 class Hogar inherits Elementos {
     var property mugre = 0 
-    var property confort = 100 
+    var property confort = 0 
     override method esBueno(){
         return mugre  < (self.confort() / 2)
     }
 
     override method efecto(unaPlaga){
-        mugre = unaPlaga.nivelDeDaño()
+        mugre += unaPlaga.nivelDeDaño()
+        unaPlaga.efecto()
     }
 }
 class Huerta inherits Elementos {
@@ -23,28 +24,30 @@ class Huerta inherits Elementos {
     }
     
     override method efecto(unaPlaga){
-        if (unaPlaga.enfermedades()){
-            produccion -= (unaPlaga.nivelDeDaño() * 10 ) - 10
-        } else {
-        produccion -= unaPlaga.nivelDeDaño() * 10  }
+        unaPlaga.efecto()
+        if (unaPlaga.transmitenEnfermedades()){
+            produccion -= (unaPlaga.nivelDeDaño() * (10/100) ) + 10
+            
+        } else { produccion -= unaPlaga.nivelDeDaño() * (10/100) }
 
     }
 }
 
-class Mascotas inherits Elementos {
-    var property nivelSalud = 100 
+class Mascota inherits Elementos {
+    var property nivelSalud = 0
     override method esBueno(){
         return nivelSalud > 250 
     }
     override method efecto(unaPlaga){
-        if (unaPlaga.enfermedades()){
-            nivelSalud = unaPlaga.nivelDeDaño()
+        if (unaPlaga.transmitenEnfermedades()){
+            nivelSalud -= unaPlaga.nivelDeDaño()
         }
+        unaPlaga.efecto()
     }
     
 }
 
-class Barrio  {
+object barrio  {
    var property listaDeElementos = []
     method esBueno(){
         return listaDeElementos.size()/2 < self.cantidadDeElemetosBuenos()
@@ -52,4 +55,8 @@ class Barrio  {
     method cantidadDeElemetosBuenos(){
         return listaDeElementos.count({elemento => elemento.esBueno()})
     }
+    method agregarElementos(unElemento){
+        listaDeElementos.add(unElemento)
+    }
+
 }
