@@ -21,6 +21,12 @@ describe "Tets de Huerta" {
     const huerta = new Huerta(nivelDeProduccion = 10)
     assert.notThat(huerta.esBueno())
   }
+  test "La Huerna no tiene produccion negativa"{
+    const huerta = new Huerta(produccion =10)
+    const cucaracha = new Cucaracha(poblacion=110, pesoPromedio=18)
+    huerta.efecto(cucaracha)
+    assert.equals(0, huerta.produccion())
+  }
 }
 
 describe "Test de Mascota" {
@@ -31,6 +37,12 @@ describe "Test de Mascota" {
   test "La mascota no es buena" {
     const mascota = new Mascota(nivelSalud = 20)
     assert.notThat(mascota.esBueno())  
+  }
+  test"El nivel de salud no es negativo"{
+    const mascota = new Mascota( nivelSalud=50)
+    const cucaracha = new Cucaracha(poblacion=110, pesoPromedio=18)
+    mascota.efecto(cucaracha)
+    assert.equals(0, mascota.nivelSalud())
   }
 }
 describe "Test de Barrio" {

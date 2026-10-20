@@ -26,9 +26,9 @@ class Huerta inherits Elementos {
     override method efecto(unaPlaga){
         unaPlaga.efecto()
         if (unaPlaga.transmitenEnfermedades()){
-            produccion -= (unaPlaga.nivelDeDaño() * (10/100) ) + 10
+            produccion = 0.max(produccion -(unaPlaga.nivelDeDaño() * (10/100)  + 10))
             
-        } else { produccion -= unaPlaga.nivelDeDaño() * (10/100) }
+        } else { produccion -= 0.max(produccion - unaPlaga.nivelDeDaño() * (10/100)) }
 
     }
 }
@@ -40,7 +40,7 @@ class Mascota inherits Elementos {
     }
     override method efecto(unaPlaga){
         if (unaPlaga.transmitenEnfermedades()){
-            nivelSalud -= unaPlaga.nivelDeDaño()
+            nivelSalud = 0.max(nivelSalud - unaPlaga.nivelDeDaño())
         }
         unaPlaga.efecto()
     }
