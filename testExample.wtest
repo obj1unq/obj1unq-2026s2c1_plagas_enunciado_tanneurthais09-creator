@@ -1,9 +1,189 @@
-import example.pepita
+import elementos.*
+import plagas.* 
 
-describe "group of tests for pepita" {
+describe "Test de Hogar" {
+  test "El Hogar es bueno" {
+    const hogar = new Hogar(mugre=10,confort=50)
+    assert.that(hogar.esBueno())
+  }
+  test "El hogar no es bueno"{
+    const hogar = new Hogar(mugre=100)
+    assert.notThat(hogar.esBueno())
+  }
+}
+describe "Tets de Huerta" {
+  test "La Huerta es buena" {
+    const huerta = new Huerta(produccion=50,nivelDeProduccion=10)
+    assert.that(huerta.esBueno())
+    
+  }
+  test "La Huerta no es buena"{
+    const huerta = new Huerta(nivelDeProduccion = 10)
+    assert.notThat(huerta.esBueno())
+  }
+  test "La Huerna no tiene produccion negativa"{
+    const huerta = new Huerta(produccion =10)
+    const cucaracha = new Cucaracha(poblacion=110, pesoPromedio=18)
+    huerta.efecto(cucaracha)
+    assert.equals(0, huerta.produccion())
+  }
+}
 
-  test "pepita has initial energy" {
-    assert.equals(100, pepita.energy())
+describe "Test de Mascota" {
+  test "La mascota es buena" {
+    const mascota = new Mascota( nivelSalud=300 )
+    assert.that(mascota.esBueno())  
+  }
+  test "La mascota no es buena" {
+    const mascota = new Mascota(nivelSalud = 20)
+    assert.notThat(mascota.esBueno())  
+  }
+  test"El nivel de salud no es negativo"{
+    const mascota = new Mascota( nivelSalud=50)
+    const cucaracha = new Cucaracha(poblacion=110, pesoPromedio=18)
+    mascota.efecto(cucaracha)
+    assert.equals(0, mascota.nivelSalud())
+  }
+}
+describe "Test de Barrio" {
+  test "El barrio es copado" {
+    const hogar = new Hogar(mugre=20,confort=60)
+    const huerta = new Huerta(produccion=50,nivelDeProduccion=10)
+    const mascota = new Mascota()
+    barrio.agregarElementos(hogar)
+    barrio.agregarElementos(huerta)
+    barrio.agregarElementos(mascota)
+    assert.that(barrio.esBueno())
+  }
+  test "El Barrio no es copado"{
+    const hogar = new Hogar(mugre=100)
+    const huerta = new Huerta(produccion=5,nivelDeProduccion=10)
+    const mascota = new Mascota(nivelSalud=100)
+    barrio.agregarElementos(hogar)
+    barrio.agregarElementos(huerta)
+    barrio.agregarElementos(mascota)
+    assert.notThat(barrio.esBueno())
+  }
+  test "El barrio no es copado cuando es empate"{
+    const hogar = new Hogar()
+    const hogar2 = new Hogar(mugre=100)
+    barrio.agregarElementos(hogar)
+    barrio.agregarElementos(hogar2)
+    assert.notThat(barrio.esBueno())
+    }
+}
+
+describe "Test de Cuacrachas" {
+  test"Test de cucarachas ataca un Hogar"{
+    const hogar = new Hogar()
+    const cucaracha = new Cucaracha(poblacion=100)
+    hogar.efecto(cucaracha)
+    assert.equals(50,hogar.mugre())
+  }
+  test "Test de cucaracha que trasmite enfermedad "{
+    const cucaracha = new Cucaracha(pesoPromedio=50, poblacion = 100) 
+    assert.that(cucaracha.transmitenEnfermedades())
+  }
+  test "Test de cucaracha que no transmite enfermedad "{
+    const cucaracha = new Cucaracha(pesoPromedio=5, poblacion = 100) 
+    assert.notThat(cucaracha.transmitenEnfermedades())
+  }
+}
+describe "Test de Pulgas" {
+  test "Tesde de Plugas atacando una Huerta" {
+    const huerta = new Huerta(produccion= 100)
+    const pulga = new Pulga(poblacion=20)
+    huerta.efecto(pulga)
+    assert.that(pulga.transmitenEnfermedades())
+    assert.equals(85.6, huerta.produccion())
+  }
+  test "Test de que la Pulga transmite enfermedades"{
+    const pulga = new Pulga(poblacion=20)
+    assert.that(pulga.transmitenEnfermedades())
+  }
+  test "Test de que la Pulga no transmite enfermedades"{
+    const pulga = new Pulga(poblacion=10)
+    assert.that(pulga.transmitenEnfermedades())
   }
 
+}
+
+describe "Test de Garrapatas" {
+  test "Test de Garrapatas atacando a mascotas" {
+    const perro = new Mascota(nivelSalud=100)
+    const garrapata = new Garrapata(poblacion=20)
+    assert.that(garrapata.transmitenEnfermedades())
+    perro.efecto(garrapata)
+    assert.equals(60, perro.nivelSalud())
+  }
+  test "Test de Garrapatas no atacando a mascotas" {
+    const perro = new Mascota(nivelSalud = 100)
+    const garrapata = new Garrapata(poblacion=5)
+    assert.notThat(garrapata.transmitenEnfermedades())
+    perro.efecto(garrapata)
+    assert.equals(100, perro.nivelSalud())
+  }
+  test "La Garrapata que transmite enfermedades"{
+    const garrapata = new Garrapata(poblacion=20)
+    assert.that(garrapata.transmitenEnfermedades())
+  }
+  test "La Garrapata transmite que no enfermedades"{
+    const garrapata = new Garrapata(poblacion=9)
+    assert.notThat(garrapata.transmitenEnfermedades())
+  }
+
+}
+describe "Test de Mosquitos"{
+  test"Test de Mosquitos atacando a una Hogar"{
+    const casa = new Hogar(mugre=10)
+    const mosquito = new Mosquito(poblacion= 10)
+    casa.efecto(mosquito)
+    assert.equals(20, casa.mugre())
+  }
+  test "test de Mosquitos que transmiten enfermedades "{
+    const mosquito = new Mosquito(poblacion=12)
+    assert.that(mosquito.transmitenEnfermedades())
+  }
+  test "test de Mosquitos que no  transmiten enfermedades "{
+    const mosquito = new Mosquito(poblacion=5)
+    assert.notThat(mosquito.transmitenEnfermedades())
+  }
+}
+
+describe "Test de efecto tanto a elemento como a plaga" {
+ 
+    test "Test de Pulgas atacando a mascotas " {
+    const perro = new Mascota(nivelSalud=100)
+    const pulga = new Pulga(poblacion=20)
+    assert.that(pulga.transmitenEnfermedades())
+    perro.efecto(pulga)
+    assert.equals(22,pulga.poblacion())
+    assert.equals(60, perro.nivelSalud())
+  }
+
+  test"Test de garrapatas ataca un Hogar"{
+    const hogar = new Hogar()
+    const garrapata = new Garrapata(poblacion=100)
+    hogar.efecto(garrapata)
+    assert.equals(200,hogar.mugre())
+  }
+  test"test de cucaracha atando un Huerta" {
+    const huerta = new Huerta(produccion= 100)
+    const cucaracha = new Cucaracha(poblacion=20, pesoPromedio=10)
+    huerta.efecto(cucaracha)
+    assert.that(cucaracha.transmitenEnfermedades())
+    assert.equals(12,cucaracha.pesoPromedio())
+    assert.equals(22, cucaracha.poblacion())
+    assert.equals(88.9, huerta.produccion())
+  }
+  test"Mosquitos atacando a una mascota" {
+    const perro = new Mascota(nivelSalud=100)
+    const mosquito = new Mosquito(poblacion=18)
+    assert.that(mosquito.transmitenEnfermedades())
+    perro.efecto(mosquito)
+    assert.equals(82, perro.nivelSalud())
+    assert.equals(19.8,mosquito.poblacion())
+    assert.equals(19.8, mosquito.nivelDeDaño())
+  }
+  
 }
