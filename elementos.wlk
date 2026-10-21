@@ -18,7 +18,7 @@ class Hogar inherits Elementos {
 }
 class Huerta inherits Elementos {
     var property produccion = 0
-    var property nivelDeProduccion = 0
+    var property nivelDeProduccion = produccion.nivelDeProduccion()
     override method esBueno(){
         return produccion > nivelDeProduccion
     }
@@ -28,7 +28,7 @@ class Huerta inherits Elementos {
         if (unaPlaga.transmitenEnfermedades()){
             produccion = 0.max(produccion -(unaPlaga.nivelDeDaño() * (10/100)  + 10))
             
-        } else { produccion -= 0.max(produccion - unaPlaga.nivelDeDaño() * (10/100)) }
+        } else { produccion = 0.max(produccion - unaPlaga.nivelDeDaño() * (10/100)) }
 
     }
 }
@@ -59,4 +59,7 @@ object barrio  {
         listaDeElementos.add(unElemento)
     }
 
+}
+object produccion {
+  var property nivelDeProduccion = 0  
 }

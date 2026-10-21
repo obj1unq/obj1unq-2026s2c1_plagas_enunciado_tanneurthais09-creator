@@ -13,7 +13,7 @@ describe "Test de Hogar" {
 }
 describe "Tets de Huerta" {
   test "La Huerta es buena" {
-    const huerta = new Huerta(produccion=50)
+    const huerta = new Huerta(produccion=50,nivelDeProduccion=10)
     assert.that(huerta.esBueno())
     
   }
@@ -48,7 +48,7 @@ describe "Test de Mascota" {
 describe "Test de Barrio" {
   test "El barrio es copado" {
     const hogar = new Hogar(mugre=20,confort=60)
-    const huerta = new Huerta(produccion=50)
+    const huerta = new Huerta(produccion=50,nivelDeProduccion=10)
     const mascota = new Mascota()
     barrio.agregarElementos(hogar)
     barrio.agregarElementos(huerta)
@@ -57,7 +57,7 @@ describe "Test de Barrio" {
   }
   test "El Barrio no es copado"{
     const hogar = new Hogar(mugre=100)
-    const huerta = new Huerta(produccion=50)
+    const huerta = new Huerta(produccion=5,nivelDeProduccion=10)
     const mascota = new Mascota(nivelSalud=100)
     barrio.agregarElementos(hogar)
     barrio.agregarElementos(huerta)
